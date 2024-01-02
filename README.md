@@ -4,6 +4,8 @@ This repository presents a practical example of how a micro application can be i
 
 The primary objective of this demonstration is to highlight the potential issues encountered with app-based routing and module federation.
 
+### Install dependencies
+`npm run install`
 
 ### App 1. Remote App - Custom React App
 This is a micro application designed to be utilized by the host application.
