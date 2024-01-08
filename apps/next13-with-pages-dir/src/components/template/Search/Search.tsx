@@ -1,27 +1,49 @@
-import React from "react";
-import axios from "axios";
+import type { GetStaticProps } from 'next'
+import React from 'react'
+import axios from 'axios'
+import { i18nConfig } from '@/i18nConfig'
+import BlogApp from './Blog'
 
-export const revalidate = 60;
+export const getStaticPaths = async () => {
+  const paths = i18nConfig.locales.map((locale) => ({
+    params: {
+      locale,
+    },
+  }))
 
-const getStaticProps = async () => {
-  const res = await axios("http://worldtimeapi.org/api/timezone/Asia/Kolkata");
-  const dataRes = res.data;
-  return dataRes;
-};
-
-async function SearchPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
-  const dataRes = await getStaticProps();
-  // .then(response => response.json())
-  // .then(json => console.log(json))
-  return (
-    <>
-      <div>Testing search page - {dataRes.datetime}</div>
-    </>
-  );
+  return {
+    paths,
+    fallback: false,
+  }
 }
 
-export default SearchPage;
+export const getStaticProps = (async (context) => {
+  const res = await axios('http://worldtimeapi.org/api/timezone/Asia/Kolkata')
+  const dataRes = res.data
+  return {
+    props: {
+      dataRes,
+      params: {
+        locale: context.params?.locale,
+      },
+    },
+    revalidate: 60,
+  }
+}) satisfies GetStaticProps<any>
+
+const SearchPage = ({
+  params: { locale },
+  dataRes,
+}: {
+  params: { locale: string }
+  dataRes: any
+}) => {
+  return (
+    <>
+      <BlogApp />
+      <div>Testing search page - {dataRes.datetime}</div>
+    </>
+  )
+}
+
+export default SearchPage

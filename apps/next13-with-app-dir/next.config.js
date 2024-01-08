@@ -1,33 +1,28 @@
-/** @type {import('next').NextConfig} */
-// const NextFederationPlugin = require('@module-federation/nextjs-mf');
+const { ModuleFederationPlugin } = require('webpack').container
 
-const nextConfig = {
-    basePath: '/locations',
-    async redirects() {
-      return [
-        {
-          source: '/',
-          destination: '/search',
-          permanent: false,
+module.exports = {
+  basePath: '/locations',
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/search',
+        permanent: false,
+      },
+    ]
+  },
+  webpack(config, options) {
+    config.plugins.push(
+      new ModuleFederationPlugin({
+        name: 'host',
+        filename: 'static/chunks/remoteEntry.js',
+        remotes: {
+          app: 'react_remote_app@http://localhost:3000/remoteEntry.js',
         },
-      ]
-    },
-    webpack(config, options) {
-      if (!options.isServer) {
-        const { ModuleFederationPlugin } = options.webpack.container;
-        config.plugins.push(
-          new ModuleFederationPlugin({
-            name: 'host',
-            filename: 'static/chunks/remoteEntry.js',
-            remotes: {
-              app: 'react_remote_app@http://localhost:8080/remoteEntry.js'
-            },
-            exposes: {},
-          }),
-        );
-      }
-      return config;
-    }
-}
+        exposes: {},
+      })
+    )
 
-module.exports = nextConfig
+    return config
+  },
+}
