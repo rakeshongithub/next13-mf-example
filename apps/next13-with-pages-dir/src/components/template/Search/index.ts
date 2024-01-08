@@ -1,1 +1,1 @@
-export {default, revalidate} from './Search';
+export { default, getStaticPaths, getStaticProps } from './Search'

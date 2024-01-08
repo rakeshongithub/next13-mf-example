@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.4.2",
-    "@module-federation/nextjs-mf": "^8.1.0",
     "axios": "^1.6.2",
     "dayjs": "^1.11.10",
     "eslint-config-next": "13.5.2",
