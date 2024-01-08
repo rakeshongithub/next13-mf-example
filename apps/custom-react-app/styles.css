@@ -1,0 +1,17 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.blog-post {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+
+.blog-post h2 {
+  color: #333;
+}
+
+.blog-post p {
+  color: #666;
+}
